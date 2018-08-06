@@ -1,0 +1,38 @@
+def parse_cfg(filepath):
+    file = open('yolov3.cfg.txt', 'r')
+    contents = file.read().split('\n') # split by end line tag to get multiline comments in contents
+    refined_content = []
+    for i in range(len(contents)):
+        #print(contents[i])
+        #print(i)
+        if(len(contents[i]) > 0 and contents[i][0]!='#'):
+            refined_content.append(contents[i].replace(" ", ""))
+            
+    block = {}
+    blocks = []
+    lines = refined_content
+    skip=[]
+    blocks = []
+    for i in range(len(lines)):
+        
+        if(lines[i][0] == '['):
+            
+        while(lines[i][0] !='['):
+        
+    
+    for line in lines:
+        if line[0] == "[":               # Check for the starting of a new block
+            if len(block) != 0:          # If block is not empty, implies it is storing values of previous block.
+                blocks.append(block)     # add it the blocks list
+                block = {}               # re-init the block
+                block["type"] = line[1:-1].rstrip()     
+            else:
+                splitValue = line.split("=")
+                if(len(splitValue) == 2):
+                    key,value = line.split("=") 
+                    block[key] = value
+                    blocks.append(block)
+    return blocks
+    #return refined_content        
+
+parse_cfg("dummy")
